@@ -4,13 +4,26 @@ import br.com.dao.ClienteDao;
 import br.com.dao.ClienteDaoImpl;
 import br.com.dao.HibernateUtil;
 import br.com.entidade.Cliente;
+import br.com.util.MyQRCode;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
@@ -216,9 +229,8 @@ public class CadastrarCliente extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(lb_telefone)
                         .addComponent(varTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(varSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(lb_saldo)))
+                    .addComponent(varSaldo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_saldo))
                 .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lb_situacao)
@@ -242,7 +254,6 @@ public class CadastrarCliente extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(CadastrarCliente.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
 
         if (validarFormulario()) {
             if ((data == null)) {
@@ -266,12 +277,29 @@ public class CadastrarCliente extends javax.swing.JFrame {
 
             clienteDao.salvarOuAlterar(cliente, sessao);
             dispose();
-            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!"
-                    + "Seu cógigo de compra é: " + cliente.getId());
-            sessao.close();
-        }
-    }//GEN-LAST:event_btCadastrarActionPerformed
+            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!");
+            String path = "qrcode-" + cliente.getId() + ".png";
+            try {
+                MyQRCode.createQRCodeForClient(cliente, path);
 
+            } catch (WriterException | IOException e) {
+                e.printStackTrace();
+            }
+
+            String caminhoImagem = "qrcode-" + cliente.getId() + ".png";
+            JOptionPane.showMessageDialog(null, criarJOptionPaneComImagem(caminhoImagem), "Seu QRCode", JOptionPane.PLAIN_MESSAGE);
+
+        }
+
+    }//GEN-LAST:event_btCadastrarActionPerformed
+    
+    public static JPanel criarJOptionPaneComImagem(String caminhoImagem) {
+    ImageIcon icon = new ImageIcon(caminhoImagem);
+    JLabel label = new JLabel(icon);
+    JPanel panel = new JPanel();
+    panel.add(label);
+    return panel;
+  }
     private void carregarAlteracaoCliente(Cliente cliente1) {
         this.cliente = cliente1;
         varNome.setText(cliente1.getNome());
@@ -329,6 +357,43 @@ public class CadastrarCliente extends javax.swing.JFrame {
             }
         });
     }
+
+    private void gerarImagem() {
+        JOptionPane.showMessageDialog(null, sessao);
+
+        // Carrega a imagem do arquivo
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(new File("caminho/para/imagem.png"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Cria um ImageIcon com a imagem carregada
+        ImageIcon icon = new ImageIcon(img);
+    }
+
+//    private void gerarQRCode() {
+//        String nome = varNome.getText();
+//        String telefone = varTelefone.getText();
+//
+//        MyQRCode qrCode = new MyQRCode();
+//        String data = "Nome: " + nome + "\nTelefone: " + telefone;
+//        String path = "qrCode.png";
+//        String charset = "UTF-8";
+//        Map<EncodeHintType, ErrorCorrectionLevel> hashMap = new HashMap<EncodeHintType, ErrorCorrectionLevel>();
+//        hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
+//        try {
+//            qrCode.createQR(data, path, charset, hashMap, 200, 200);
+//
+//            // carregar a imagem do QR Code e definir como ícone do JLabel
+//            ImageIcon icon = new ImageIcon(path);
+////            lblQRCode.setIcon(icon);
+//
+//            JOptionPane.showMessageDialog(CadastrarCliente.this, "QR Code gerado com sucesso!");
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(CadastrarCliente.this, "Erro ao gerar QR Code: " + ex.getMessage());
+//      }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btCadastrar;
