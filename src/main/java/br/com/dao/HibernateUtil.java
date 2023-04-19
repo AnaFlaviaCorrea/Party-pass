@@ -7,6 +7,7 @@ package br.com.dao;
 
 import br.com.entidade.Cliente;
 import br.com.entidade.Funcionario;
+import br.com.entidade.Produto;
 import org.hibernate.*;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
@@ -26,8 +27,7 @@ public class HibernateUtil {
             Configuration cfg = new Configuration();
             cfg.addAnnotatedClass(Cliente.class);
             cfg.addAnnotatedClass(Funcionario.class);
-          
-           
+            cfg.addAnnotatedClass(Produto.class);
 
             cfg.configure("/META-INF/hibernate.cfg.xml");
             StandardServiceRegistryBuilder build = new StandardServiceRegistryBuilder().

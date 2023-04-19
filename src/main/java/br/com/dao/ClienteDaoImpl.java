@@ -1,6 +1,5 @@
 package br.com.dao;
 
-
 import br.com.entidade.Cliente;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -12,7 +11,9 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long>
 
     @Override
     public Cliente pesquisarPorId(Long id, Session sessao) throws HibernateException {
-        return sessao.find(Cliente.class, id);
+        Query<Cliente> consulta = sessao.createQuery("FROM Cliente c WHERE c.id = :vId");
+        consulta.setParameter("vId", id);
+        return consulta.uniqueResult();
     }
 
     @Override
@@ -35,4 +36,16 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long>
         consulta.setParameter("senha", senha);
         return consulta.uniqueResult();
     }
+
+//    public Cliente buscarClienteBd(Session sessao) throws HibernateException {
+//        Query<Cliente> consulta = sessao.createQuery("FROM Cliente", Cliente.class);
+//        List<Cliente> clientes = consulta.getResultList();
+//        sessao.close();
+//        if (clientes.isEmpty()) {
+////        testSalvar();
+//        } else {
+//            cliente = clientes.get(0);
+//        }
+//        return usuario;
+//    }
 }

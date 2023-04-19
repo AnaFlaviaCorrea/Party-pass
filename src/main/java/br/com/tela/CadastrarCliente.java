@@ -5,18 +5,13 @@ import br.com.dao.ClienteDaoImpl;
 import br.com.dao.HibernateUtil;
 import br.com.entidade.Cliente;
 import br.com.util.MyQRCode;
-import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -24,7 +19,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 public class CadastrarCliente extends javax.swing.JFrame {
@@ -147,7 +141,7 @@ public class CadastrarCliente extends javax.swing.JFrame {
         lb_saldo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_saldo.setText("Saldo:");
 
-        varSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("#,##0.00"))));
+        varSaldo.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.NumberFormatter(new java.text.DecimalFormat("¤#,##0.00"))));
 
         lb_telefone.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_telefone.setText("Telefone: ");
