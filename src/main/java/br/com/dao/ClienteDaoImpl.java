@@ -37,15 +37,11 @@ public class ClienteDaoImpl extends BaseDaoImpl<Cliente, Long>
         return consulta.uniqueResult();
     }
 
-//    public Cliente buscarClienteBd(Session sessao) throws HibernateException {
-//        Query<Cliente> consulta = sessao.createQuery("FROM Cliente", Cliente.class);
-//        List<Cliente> clientes = consulta.getResultList();
-//        sessao.close();
-//        if (clientes.isEmpty()) {
-////        testSalvar();
-//        } else {
-//            cliente = clientes.get(0);
-//        }
-//        return usuario;
-//    }
+    @Override
+    public List<Cliente> pesquisarId(Long id, Session sessao) throws HibernateException {
+        Query<Cliente> consulta = sessao.createQuery("FROM Cliente u WHERE u.id = :id");
+        consulta.setParameter("id", id);
+        return consulta.getResultList();
+    }
+
 }
