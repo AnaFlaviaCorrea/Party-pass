@@ -8,6 +8,7 @@ import br.com.dao.ProdutoDaoImpl;
 import br.com.entidade.Cliente;
 import br.com.entidade.Produto;
 import java.awt.HeadlessException;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import org.hibernate.HibernateException;
@@ -60,6 +61,11 @@ public class RecarregarComanda extends javax.swing.JFrame {
 
         varId.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         varId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        varId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                varIdKeyPressed(evt);
+            }
+        });
 
         btPesquisar.setBackground(new java.awt.Color(153, 153, 153));
         btPesquisar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -266,23 +272,33 @@ public class RecarregarComanda extends javax.swing.JFrame {
 
     private void btConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfirmarActionPerformed
         double valorRecarg = Double.parseDouble(varValorRecarga.getText());
+
         try {
             sessao = HibernateUtil.abrirConexao();
             int iD = Integer.parseInt(varId.getText());
             Long idCliente = Long.valueOf(iD);
 
             Cliente clientePesq = clienteDao.pesquisarPorId(idCliente, sessao);
+            double saldo = clientePesq.getSaldo();
             if (clientePesq == null) {
                 JOptionPane.showMessageDialog(null, "Cliente não encontrado!");
             } else {
-                varSaldo.setText(String.valueOf(clientePesq.getSaldo()));
-                varCliente.setText(clientePesq.getNome());
-//                buscarCliente();
-                clientePesq.setSaldo(clientePesq.getSaldo() + valorRecarg);
-                clienteDao.salvarOuAlterar(clientePesq, sessao);
+                if (saldo < 0) {
+                    JOptionPane.showMessageDialog(null, "ATENÇÃO: Você precisa carregar um valor superior há:" + saldo);
+                }
+                if (valorRecarg >= Math.abs(saldo)) {
+                    varSaldo.setText(String.valueOf(clientePesq.getSaldo()));
+                    varCliente.setText(clientePesq.getNome());
+                    clientePesq.setSaldo(clientePesq.getSaldo() + valorRecarg);
+                    clienteDao.salvarOuAlterar(clientePesq, sessao);
 
-                JOptionPane.showMessageDialog(null, "Recarga realizada com sucesso!");
-                dispose();
+                    JOptionPane.showMessageDialog(null, "Recarga realizada com sucesso!");
+                    dispose();
+                } else if (valorRecarg < saldo) {
+                    JOptionPane.showMessageDialog(null, "Valor da recarga deve ser maior ou igual ao saldo devedor");
+
+                }
+
             }
 
         } catch (HeadlessException | NumberFormatException | HibernateException e) {
@@ -300,7 +316,11 @@ public class RecarregarComanda extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btCancelarActionPerformed
 
-   
+    private void varIdKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_varIdKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btPesquisarActionPerformed(null);
+    }//GEN-LAST:event_varIdKeyPressed
+    }
 
     /**
      * @param args the command line arguments

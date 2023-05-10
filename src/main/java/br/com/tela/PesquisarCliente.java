@@ -4,6 +4,7 @@ import br.com.dao.ClienteDao;
 import br.com.dao.ClienteDaoImpl;
 import br.com.dao.HibernateUtil;
 import br.com.entidade.Cliente;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -42,6 +43,12 @@ public class PesquisarCliente extends javax.swing.JFrame {
         lb_nome.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_nome.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_nome.setText("Nome:");
+
+        varNome.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                varNomeKeyPressed(evt);
+            }
+        });
 
         btPesquisar.setBackground(new java.awt.Color(153, 153, 153));
         btPesquisar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
@@ -177,6 +184,12 @@ public class PesquisarCliente extends javax.swing.JFrame {
             dispose();
         }
     }//GEN-LAST:event_btAlterarActionPerformed
+
+    private void varNomeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_varNomeKeyPressed
+    if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btPesquisarActionPerformed(null);}
+        // TODO add your handling code here:
+    }//GEN-LAST:event_varNomeKeyPressed
 
     private void carregarTabelaCliente() {
         DefaultTableModel defaultTable = (DefaultTableModel) tbCliente.getModel();

@@ -82,13 +82,13 @@ public class RealizarConsumo extends javax.swing.JFrame {
             }
         });
 
-        lb_cliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_cliente.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_cliente.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_cliente.setText("Cliente:");
 
         varCliente.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        lb_codigo_produto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_codigo_produto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_codigo_produto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_codigo_produto.setText("Código do Produto:");
 
@@ -108,19 +108,19 @@ public class RealizarConsumo extends javax.swing.JFrame {
             }
         });
 
-        lb_nome_produto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_nome_produto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_nome_produto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_nome_produto.setText("Nome do Produto:");
 
         varNomeProduto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        lb_valor_produto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_valor_produto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_valor_produto.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_valor_produto.setText("Valor do Produto:");
 
         varValorProduto.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        lb_quantidade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_quantidade.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_quantidade.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_quantidade.setText("Quantidade:");
 
@@ -131,11 +131,12 @@ public class RealizarConsumo extends javax.swing.JFrame {
             }
         });
 
-        lb_unidade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_unidade.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_unidade.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
         lb_unidade.setText("Unidade(s)");
 
-        btOkQuantidade.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btOkQuantidade.setBackground(new java.awt.Color(153, 153, 153));
+        btOkQuantidade.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btOkQuantidade.setText("OK");
         btOkQuantidade.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,17 +144,24 @@ public class RealizarConsumo extends javax.swing.JFrame {
             }
         });
 
-        lb_total.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lb_total.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lb_total.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         lb_total.setText("Total:");
 
         varTotal.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        btCancelar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btCancelar.setText("CANCELAR");
+        btCancelar.setBackground(new java.awt.Color(153, 153, 153));
+        btCancelar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btCancelar.setText("Cancelar");
+        btCancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btCancelarActionPerformed(evt);
+            }
+        });
 
-        btConfirmar.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btConfirmar.setText("CONFIRMAR");
+        btConfirmar.setBackground(new java.awt.Color(153, 153, 153));
+        btConfirmar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btConfirmar.setText("Confirmar");
         btConfirmar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btConfirmarActionPerformed(evt);
@@ -232,7 +240,7 @@ public class RealizarConsumo extends javax.swing.JFrame {
                                                 .addComponent(lb_unidade)
                                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                                 .addComponent(btOkQuantidade, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                        .addGap(0, 259, Short.MAX_VALUE))))
+                                        .addGap(0, 252, Short.MAX_VALUE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addGap(31, 31, 31)
                                 .addComponent(lb_numero_comanda)
@@ -318,7 +326,7 @@ public class RealizarConsumo extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Não foi possível pesquisar o cliente: " + ex.getMessage());
         }
     }//GEN-LAST:event_btPesquisarActionPerformed
-  
+
     private void btOkQuantidadeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOkQuantidadeActionPerformed
         String valor = varQuantidade.getText().trim();
         try {
@@ -331,23 +339,29 @@ public class RealizarConsumo extends javax.swing.JFrame {
     }//GEN-LAST:event_btOkQuantidadeActionPerformed
 
     private void btConfirmarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btConfirmarActionPerformed
+
         try {
             double saldo = clientes.get(0).getSaldo();
             sessao = HibernateUtil.abrirConexao();
-            Double atualizado = saldo - Double.valueOf(varTotal.getText().trim());
-            clientes.get(0).setSaldo(atualizado);
-            clienteDao.salvarOuAlterar(clientes.get(0), sessao);
-            dispose();
+            double total = Double.valueOf(varTotal.getText().trim());
 
+            if (saldo < total) {
+                JOptionPane.showMessageDialog(null, "Compra não permitida! Saldo inferior ao valor da venda");
+            } else {
+                double atualizado = saldo - total;
+                clientes.get(0).setSaldo(atualizado);
+                clienteDao.salvarOuAlterar(clientes.get(0), sessao);
+                dispose();
+            }
         } catch (HibernateException ex) {
             JOptionPane.showMessageDialog(null, "Não foi possível pesquisar os produtos: " + ex.getMessage());
         }
     }//GEN-LAST:event_btConfirmarActionPerformed
 
     private void varCodigoProdutoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_varCodigoProdutoKeyPressed
-          if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             btOkProdutoActionPerformed(null);
-        } 
+        }
     }//GEN-LAST:event_varCodigoProdutoKeyPressed
 
     private void btOkProdutoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOkProdutoActionPerformed
@@ -371,16 +385,21 @@ public class RealizarConsumo extends javax.swing.JFrame {
     }//GEN-LAST:event_btOkProdutoActionPerformed
 
     private void varQuantidadeKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_varQuantidadeKeyPressed
-         if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-             btOkQuantidadeActionPerformed(null);
-         }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btOkQuantidadeActionPerformed(null);
+        }
     }//GEN-LAST:event_varQuantidadeKeyPressed
 
     private void varNumeroComandaKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_varNumeroComandaKeyPressed
-       if (evt.getKeyCode() == KeyEvent.VK_ENTER){
-           btPesquisarActionPerformed(null);
-       }
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            btPesquisarActionPerformed(null);
+        }
     }//GEN-LAST:event_varNumeroComandaKeyPressed
+
+    private void btCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCancelarActionPerformed
+        JOptionPane.showMessageDialog(null, "Você fechará esta janela");
+        dispose();
+    }//GEN-LAST:event_btCancelarActionPerformed
 
     private boolean validarPesquisa() {
         if (varCodigoProduto.getText().trim().length() > 10) {
