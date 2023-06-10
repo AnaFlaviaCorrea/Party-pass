@@ -271,7 +271,7 @@ public class CadastrarCliente extends javax.swing.JFrame {
 
             clienteDao.salvarOuAlterar(cliente, sessao);
             dispose();
-            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso!");
+            JOptionPane.showMessageDialog(null, "Cliente salvo com sucesso! Seu código é: " + cliente.getId());
             String path = "qrcode-" + cliente.getId() + ".png";
             try {
                 MyQRCode.createQRCodeForClient(cliente, path);
